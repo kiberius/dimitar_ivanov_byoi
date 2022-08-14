@@ -1,0 +1,64 @@
+#!/bin/bash
+
+## Update the installed packages
+yum update -y
+
+## Install PHP
+amazon-linux-extras enable php7.4
+
+## Install MySQL & Apache
+yum install mysql httpd -y
+
+## Install PHP & MySQL dependencies
+yum install php-cli php-pdo php-fpm php-json php-mysqlnd -y
+
+## Start Apache
+systemctl start httpd
+
+## Set-up Apache to start automatically
+systemctl enable httpd
+
+## Download and unzip WordPress
+wget http://wordpress.org/latest.tar.gz
+tar -xzvf latest.tar.gz
+
+## Copy the files to /var/www/html (WordPress installation directory)
+rsync -avP wordpress/* /var/www/html/
+
+## Create the WordPress direcroty for uploads
+mkdir /var/www/html/wp-content/uploads
+
+## Change the ownership of /var/www/html/* to Apache
+chown -R apache:apache /var/www/html/*
+
+## Copy the wp-config file from S3
+aws s3 cp s3://tfstate-bucket-dimitarivanov-sandbox/wp-config.php /var/www/html/wp-config.php
+
+## Insert the necessary info into the wp-config file
+sed -i "s/database_name_here/${db_name}/g" /var/www/html/wp-config.php
+sed -i "s/username_here/${db_user}/g" /var/www/html/wp-config.php
+sed -i "s/password_here/${db_pass}/g" /var/www/html/wp-config.php
+sed -i "s/localhost/${db_endpoint}/g" /var/www/html/wp-config.php
+
+## Download the WordPress CLI, make it an executable and put it inside the $PATH folder
+curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+chmod +x wp-cli.phar
+mv wp-cli.phar /usr/bin/wp
+
+## Change to the WP directory and install the DB with the new values
+cd /var/www/html
+wp core install --path='/var/www/html' --url=${dns_name} --title="${wp_site_title}" --admin_user=${wp_admin_user} --admin_password=${wp_admin_pass} --admin_email=${wp_admin_email}
+
+## Install cloudwatch agent & CollectD agent
+yum install amazon-cloudwatch-agent -y
+amazon-linux-extras install collectd -y
+systemctl start collectd
+systemctl enable collectd
+
+## Create necessary cloudwatch agent json config file
+aws s3 cp s3://tfstate-bucket-dimitarivanov-sandbox/cw_config.json /opt/aws/amazon-cloudwatch-agent/etc/cw-config.json
+
+## Configure cloudwatch agent using the json config file
+/opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -s -c file:/opt/aws/amazon-cloudwatch-agent/etc/cw-config.json
+systemctl start amazon-cloudwatch-agent.service
+systemctl enable amazon-cloudwatch-agent.service

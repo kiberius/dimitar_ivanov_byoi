@@ -1,0 +1,193 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "cloudwatch:PutDashboard",
+                "cloudwatch:DeleteAlarms",
+                "cloudwatch:DeleteInsightRules",
+                "cloudwatch:DisableInsightRules",
+                "cloudwatch:EnableInsightRules",
+                "logs:DeleteLogStream",
+                "logs:PutLogEvents",
+                "cloudwatch:PutInsightRule",
+                "cloudwatch:PutMetricAlarm",
+                "cloudwatch:DeleteDashboards",
+                "cloudwatch:EnableAlarmActions",
+                "cloudwatch:DisableAlarmActions",
+                "logs:GetLogEvents",
+                "cloudwatch:SetAlarmState"
+            ],
+            "Resource": [
+                "arn:aws:logs:*:102861590859:log-group:*:log-stream:*",
+                "arn:aws:cloudwatch:*:102861590859:alarm:*",
+                "arn:aws:cloudwatch::102861590859:dashboard/*",
+                "arn:aws:cloudwatch:*:102861590859:insight-rule/*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "logs:ListTagsLogGroup",
+                "logs:DisassociateKmsKey",
+                "logs:DeleteSubscriptionFilter",
+                "logs:DescribeLogGroups",
+                "logs:UntagLogGroup",
+                "logs:DeleteLogGroup",
+                "logs:DescribeLogStreams",
+                "logs:DescribeSubscriptionFilters",
+                "logs:StartQuery",
+                "logs:DescribeMetricFilters",
+                "logs:CreateLogGroup",
+                "logs:CreateExportTask",
+                "logs:PutMetricFilter",
+                "logs:CreateLogStream",
+                "logs:DeleteMetricFilter",
+                "logs:TagLogGroup",
+                "logs:DeleteRetentionPolicy",
+                "logs:AssociateKmsKey",
+                "logs:FilterLogEvents",
+                "logs:PutRetentionPolicy",
+                "logs:GetLogGroupFields"
+            ],
+            "Resource": "arn:aws:logs:*:102861590859:log-group:*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "logs:GetLogRecord",
+                "cloudwatch:PutMetricData",
+                "cloudwatch:GetMetricData",
+                "cloudwatch:DeleteAnomalyDetector",
+                "cloudwatch:ListMetrics",
+                "logs:GetLogDelivery",
+                "logs:ListLogDeliveries",
+                "logs:DeleteResourcePolicy",
+                "cloudwatch:DescribeAlarmsForMetric",
+                "logs:CancelExportTask",
+                "logs:DeleteLogDelivery",
+                "cloudwatch:PutAnomalyDetector",
+                "logs:DescribeResourcePolicies",
+                "logs:DescribeDestinations",
+                "logs:DescribeQueries",
+                "logs:PutDestinationPolicy",
+                "logs:StopQuery",
+                "logs:TestMetricFilter",
+                "logs:DeleteDestination",
+                "cloudwatch:GetMetricStatistics",
+                "logs:CreateLogDelivery",
+                "logs:PutResourcePolicy",
+                "logs:DescribeExportTasks",
+                "logs:GetQueryResults",
+                "logs:UpdateLogDelivery"
+            ],
+            "Resource": "*"
+        },
+      {
+            "Effect": "Allow",
+            "Action": [
+                "cloudwatch:PutMetricData",
+                "ec2:DescribeVolumes",
+                "ec2:DescribeTags",
+                "logs:PutLogEvents",
+                "logs:DescribeLogStreams",
+                "logs:DescribeLogGroups",
+                "logs:CreateLogStream",
+                "logs:CreateLogGroup"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ssm:GetParameter"
+            ],
+            "Resource": "arn:aws:ssm:*:*:parameter/AmazonCloudWatch-*"
+        },
+      {
+            "Effect": "Allow",
+            "Action": [
+                "ssmmessages:CreateControlChannel",
+                "ssmmessages:CreateDataChannel",
+                "ssmmessages:OpenControlChannel",
+                "ssmmessages:OpenDataChannel"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetEncryptionConfiguration"
+            ],
+            "Resource": "*"
+        },
+         {
+            "Effect": "Allow",
+            "Action": [
+                "ssm:DescribeAssociation",
+                "ssm:GetDeployablePatchSnapshotForInstance",
+                "ssm:GetDocument",
+                "ssm:DescribeDocument",
+                "ssm:GetManifest",
+                "ssm:GetParameter",
+                "ssm:GetParameters",
+                "ssm:ListAssociations",
+                "ssm:ListInstanceAssociations",
+                "ssm:PutInventory",
+                "ssm:PutComplianceItems",
+                "ssm:PutConfigurePackageResult",
+                "ssm:UpdateAssociationStatus",
+                "ssm:UpdateInstanceAssociationStatus",
+                "ssm:UpdateInstanceInformation"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ssmmessages:CreateControlChannel",
+                "ssmmessages:CreateDataChannel",
+                "ssmmessages:OpenControlChannel",
+                "ssmmessages:OpenDataChannel"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2messages:AcknowledgeMessage",
+                "ec2messages:DeleteMessage",
+                "ec2messages:FailMessage",
+                "ec2messages:GetEndpoint",
+                "ec2messages:GetMessages",
+                "ec2messages:SendReply"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iam:CreateInstanceProfile",
+                "iam:ListInstanceProfilesForRole",
+                "iam:PassRole",
+                "ec2:DescribeIamInstanceProfileAssociations",
+                "iam:GetInstanceProfile",
+                "ec2:DisassociateIamInstanceProfile",
+                "ec2:AssociateIamInstanceProfile",
+                "iam:AddRoleToInstanceProfile"
+            ],
+            "Resource": "*"
+        },
+        {
+      "Action": [
+        "s3:DeleteObject",
+        "s3:GetObject",
+        "s3:ListBucket",
+        "s3:PutObject"
+      ],
+      "Effect": "Allow",
+      "Resource": "arn:aws:s3:::*/*"
+    }
+    ]
+}
